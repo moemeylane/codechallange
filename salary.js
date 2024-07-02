@@ -31,9 +31,9 @@ const NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS = 7000;
 const NSSF_TIER_II_LIMIT_FEB_2024_ONWARDS = 36000;
 const NSSF_TIER_I_LIMIT_JAN_2024 = 6000;
 const NSSF_TIER_II_LIMIT_JAN_2024 = 18000;
-const NSSF_CONTRIBUTION_RATE = 0.06; // 6%
+const NSSF_CONTRIBUTION_RATE = 0.06; 
 
-// Function to calculate PAYE
+
 function calculatePAYE(grossSalary) {
     let annualSalary = grossSalary * 12;
     let payeTax = 0;
@@ -45,20 +45,20 @@ function calculatePAYE(grossSalary) {
         }
     }
 
-    return payeTax / 12; // Convert annual PAYE to monthly PAYE
+    return payeTax / 12;
 }
 
-// Function to calculate NHIF Deductions
+
 function calculateNHIF(grossSalary) {
     for (let i = 0; i < NHIF_RATES.length; i++) {
         if (grossSalary >= NHIF_RATES[i].min && grossSalary <= NHIF_RATES[i].max) {
             return NHIF_RATES[i].deduction;
         }
     }
-    return 0; // Default to 0 if no match found
+    return 0; 
 }
 
-// Function to calculate NSSF Deductions
+
 function calculateNSSF(grossSalary) {
     let nssfDeduction = 0;
     
@@ -75,7 +75,7 @@ function calculateNSSF(grossSalary) {
     return nssfDeduction;
 }
 
-// Function to calculate Net Salary
+
 function calculateNetSalary(grossSalary, benefits) {
     let paye = calculatePAYE(grossSalary);
     let nhif = calculateNHIF(grossSalary);

@@ -1,5 +1,5 @@
 
-function demeritsForSpeed(speed) {
+function speedOfaCar(speed) {
     if (speed <= 70) {
         return 'Ok';
     } else {

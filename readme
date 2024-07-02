@@ -1,17 +1,23 @@
+marks.js file
 gradeStudent
 This function accepts a number (between 0 and 100) representing a student's marks and returns a string representing the corresponding grade ("A", "B", "C", "D", or "E").
 Input: A number (between 0 and 100) representing the student's marks.
 Return: A string representing the corresponding grade ("A", "B", "C", "D", or "E").
 
+Salary.js file
+
 Purpose
 Calculates a Net Salary after PAYE, NHIF, NSSF deductions, and additional Benefits from a given Gross Salary.
 Inputs
 Gross Salary: The gross salary of the employee, before any deductions are made.
-Benefits: Any additional benefits to be added to the net salary (such as housing allowance, medical insurance, etc.).
+Benefits: Any additional benefits to be added to the net salary such as the house and medical allowance.
 
-his function calculates and returns the number of demerit points accrued for a given speed.
+Speed.js file
+
+The function speedOfaCar checks the speed of a car over the specified limit.
 Input
 Speed: The speed in km/s at which the driver was traveling.
 Output
-If the speed is less than or equal to 70 km/s, the function returns the string "Ok" to indicate that no demerits have been accrued.
+If the speed is less than or equal to 70 km/s, the function returns the string "Ok" 
+If the spedd is more than 70km/h, for every 5km/h more than 70 the driver is given a demerit point.
 

@@ -1,16 +1,11 @@
 function gradeStudent() {
     
-    let marks = prompt("Enter student marks (between 0 and 100):");
-    
-    
-    marks = Number(marks);
-    
-    
-    if (isNaN(marks) || marks < 0 || marks > 100) {
+    let marks =prompt("Enter student marks (between 0 and 100):");
+      marks = Number;
+    gradeStudent();
+    if (isNaN(marks) ||marks < 0 || marks > 100) {
         return "Invalid input. Please enter marks between 0 and 100 .";
     }
-    
-    
     let grade;
     if (marks > 79) {
         grade = "A";
@@ -23,7 +18,5 @@ function gradeStudent() {
     } else {
         grade = "E";
     }
-    
-    
-    return `Grade: ${grade}`;
+        return `Grade: ${grade}`;
 }

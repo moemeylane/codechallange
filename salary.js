@@ -1,96 +1,63 @@
+function calculateNetSalary() {
+    let basicSalary = parseFloat(prompt("Enter Basic Salary:"));
+    let benefits = parseFloat(prompt("Enter Benefits (if any):"));
+    if (isNaN(basicSalary) || basicSalary <= 0) {
+        return "Invalid Basic Salary input.";
+    }
 
-const PAYE_RATES = [
-    { min: 0, max: 24000, rate: 10.0 },
-    { min: 24001, max: 32333, rate: 25.0 },
-    { min: 32334, max: 500000, rate: 30.0 },
-    { min: 500001, max: 800000, rate: 32.5 },
-    { min: 800001, max: Infinity, rate: 35.0 }
-];
+    if (isNaN(benefits)) {
+        benefits = 0;
+    }
+    const nhifRate = 0.015; 
+    const nssfRate = 0.06;  
 
-const NHIF_RATES = [
-    { min: 0, max: 5999, deduction: 150 },
-    { min: 6000, max: 7999, deduction: 300 },
-    { min: 8000, max: 11999, deduction: 400 },
-    { min: 12000, max: 14999, deduction: 500 },
-    { min: 15000, max: 19999, deduction: 600 },
-    { min: 20000, max: 24999, deduction: 750 },
-    { min: 25000, max: 29999, deduction: 850 },
-    { min: 30000, max: 34999, deduction: 900 },
-    { min: 35000, max: 39999, deduction: 950 },
-    { min: 40000, max: 44999, deduction: 1000 },
-    { min: 45000, max: 49999, deduction: 1100 },
-    { min: 50000, max: 59999, deduction: 1200 },
-    { min: 60000, max: 69999, deduction: 1300 },
-    { min: 70000, max: 79999, deduction: 1400 },
-    { min: 80000, max: 89999, deduction: 1500 },
-    { min: 90000, max: 99999, deduction: 1600 },
-    { min: 100000, max: Infinity, deduction: 1700 }
-];
+    //NHIF deduction
+    let nhifDeduction = basicSalary * nhifRate;
 
-const NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS = 7000;
-const NSSF_TIER_II_LIMIT_FEB_2024_ONWARDS = 36000;
-const NSSF_TIER_I_LIMIT_JAN_2024 = 6000;
-const NSSF_TIER_II_LIMIT_JAN_2024 = 18000;
-const NSSF_CONTRIBUTION_RATE = 0.06; 
+    // NSSF deduction
+    let nssfDeduction = basicSalary * nssfRate;
 
+    // Gross Salary
+    let grossSalary = basicSalary + benefits;
+
+    // paye (tax) calculation according to kra
+    let paye = calculatePAYE(grossSalary);
+
+    //Net Salary
+    let netSalary = grossSalary - (paye + nhifDeduction + nssfDeduction);
+
+    let result = `
+        Basic Salary: ${basicSalary.toFixed(2)}
+        Benefits: ${benefits.toFixed(2)}
+        NHIF Deduction: ${nhifDeduction.toFixed(2)}
+        NSSF Deduction: ${nssfDeduction.toFixed(2)}
+        Gross Salary: ${grossSalary.toFixed(2)}
+        PAYE (Tax): ${paye.toFixed(2)}
+        Net Salary: ${netSalary.toFixed(2)}
+    `;
+
+    return result;
+}
 
 function calculatePAYE(grossSalary) {
-    let annualSalary = grossSalary * 12;
-    let payeTax = 0;
+    const brackets = [
+        { min: 0, max: 24000, rate: 10 },
+        { min: 24001, max: 32333, rate: 15 },
+        { min: 32334, max: 40667, rate: 20 },
+        { min: 40668, max: 49000, rate: 25 },
+        { min: 49001, max: Infinity, rate: 30 }
+    ];
 
-    for (let i = 0; i < PAYE_RATES.length; i++) {
-        if (annualSalary <= PAYE_RATES[i].max || i === PAYE_RATES.length - 1) {
-            payeTax = (annualSalary - PAYE_RATES[i].min) * (PAYE_RATES[i].rate / 100);
+    let paye = 0;
+    for (let bracket of brackets) {
+        if (grossSalary > bracket.max) {
+            paye += (bracket.max - bracket.min) * (bracket.rate / 100);
+        } else {
+            paye += (grossSalary - bracket.min) * (bracket.rate / 100);
             break;
         }
     }
 
-    return payeTax / 12;
+    return paye;
 }
 
-
-function calculateNHIF(grossSalary) {
-    for (let i = 0; i < NHIF_RATES.length; i++) {
-        if (grossSalary >= NHIF_RATES[i].min && grossSalary <= NHIF_RATES[i].max) {
-            return NHIF_RATES[i].deduction;
-        }
-    }
-    return 0; 
-}
-
-
-function calculateNSSF(grossSalary) {
-    let nssfDeduction = 0;
-    
-    if (grossSalary <= NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS) {
-        nssfDeduction = grossSalary * NSSF_CONTRIBUTION_RATE;
-    } else if (grossSalary <= NSSF_TIER_II_LIMIT_FEB_2024_ONWARDS) {
-        nssfDeduction = NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS * NSSF_CONTRIBUTION_RATE +
-                        (grossSalary - NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS) * NSSF_CONTRIBUTION_RATE * 2;
-    } else {
-        nssfDeduction = NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS * NSSF_CONTRIBUTION_RATE +
-                        (NSSF_TIER_II_LIMIT_FEB_2024_ONWARDS - NSSF_TIER_I_LIMIT_FEB_2024_ONWARDS) * NSSF_CONTRIBUTION_RATE * 2;
-    }
-
-    return nssfDeduction;
-}
-
-
-function calculateNetSalary(grossSalary, benefits) {
-    let paye = calculatePAYE(grossSalary);
-    let nhif = calculateNHIF(grossSalary);
-    let nssf = calculateNSSF(grossSalary);
-
-    let deductions = paye + nhif + nssf;
-    let netSalary = grossSalary - deductions + benefits;
-
-    return {
-        grossSalary: grossSalary,
-        paye: paye,
-        nhif: nhif,
-        nssf: nssf,
-        deductions: deductions,
-        benefits: benefits,
-        netSalary: netSalary
-    };
-}

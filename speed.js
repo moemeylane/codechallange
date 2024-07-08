@@ -1,10 +1,18 @@
+function speedTest(speed) {
+    const speedLimit = 70;
+    const kmPerDemeritPoint = 5;
+    const initialPoints = 0;
 
-function speedOfaCar(speed) {
-    if (speed <= 70) {
-        return 'Ok';
+    if (speed <= speedLimit) {
+        console.log("Ok");
+        return initialPoints;
     } else {
-        let demerits = (speed - 70) / 5;
-        return`Demerit points: ${demerits}`;
+        let excessSpeed = speed - speedLimit;
+        let demeritPoints = Math.floor(excessSpeed / kmPerDemeritPoint);
+
+        console.log(`Demerit points: ${demeritPoints}`);
+        return demeritPoints;
     }
 }
+
 

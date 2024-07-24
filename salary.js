@@ -61,3 +61,7 @@ function calculatePAYE(grossSalary) {
     return paye;
 }
 
+<<<<<<< HEAD
+=======
+calculateNetSalary();
+>>>>>>> 0bb8351 (resubmission)

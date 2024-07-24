@@ -1,24 +1,97 @@
-marks.js file
-#calculate student grade
-This function prompts the user to input the students marks.
-This function accepts a number (between 0 and 100) representing a student's marks and returns a string representing the corresponding grade ("A", "B", "C", "D", or "E").
-Input: A number (between 0 and 100) representing the student's marks.
-Return: A string representing the corresponding grade ("A", "B", "C", "D", or "E").
+Code Challenges
+This repository contains solutions for three coding challenges. These programs can be tested using a web browser's developer console. Below are detailed instructions and code samples for each challenge.
 
-Salary.js file
-#calculate net salary
-Purpose
-Calculates a Net Salary after PAYE, NHIF, NSSF deductions, and additional Benefits from a given Gross Salary.
-Inputs
-Gross Salary: The gross salary of the employee, before any deductions are made.
-Benefits: Any additional benefits to be added to the net salary such as the house and medical allowance.
+Table of Contents
+Student Grade Generator
+Speed Detector
+Net Salary Calculator
 
-Speed.js file
-#speedTest
-The function speedTest checks the speed of a car over the specified limit.
-Input
- The Speed in km/s at which the driver was traveling.
-Output
-If the speed is less than or equal to 70 km/s, the function returns the string "Ok" 
-If the spedd is more than 70km/h, for every 5km/h more than 70 the driver is given a demerit point.
 
+1.Student Grade Generator
+Description
+This program calculates the grade based on the input marks. The grades are assigned as follows:
+
+A: Marks > 79
+B: Marks between 60 and 79
+C: Marks between 50 and 59
+D: Marks between 40 and 49
+E: Marks below 40
+Code
+javascript
+Copy code
+function getGrade(marks) {
+  if (marks >= 80) return 'A';
+  if (marks >= 60) return 'B';
+  if (marks >= 50) return 'C';
+  if (marks >= 40) return 'D';
+  return 'E';
+}
+
+// Example testing
+let marks = 85; // Change this value to test
+console.log('Grade:', getGrade(marks));
+Testing
+Open your browser (e.g., Chrome).
+Press F12 or Ctrl+Shift+I to open the Developer Tools.
+Go to the Console tab.
+Paste and run the code above.
+Observe the output in the console.
+
+
+2.Speed Detector
+Description
+This program checks the speed of a car and calculates demerit points based on the speed limit. If the speed exceeds 70 km/h, for every 5 km/h over the limit, one demerit point is added. If points exceed 12, the license is suspended.
+
+Code
+javascript
+Copy code
+function speedDetector(speed) {
+  const speedLimit = 70;
+  if (speed < speedLimit) {
+    console.log('Ok');
+  } else {
+    const points = Math.floor((speed - speedLimit) / 5);
+    if (points > 12) {
+      console.log('License suspended');
+    } else {
+      console.log('Points:', points);
+    }
+  }
+}
+
+// Example testing
+let speed = 85; // Change this value to test
+speedDetector(speed);
+Testing
+Follow the same steps as for the Student Grade Generator to test the code in the browser console.
+
+
+3.Net Salary Calculator
+Description
+This program calculates an individual's net salary based on the basic salary and benefits. It takes into account tax, NHIF (National Hospital Insurance Fund), and NSSF (National Social Security Fund) deductions.
+
+Code
+javascript
+Copy code
+function calculateNetSalary(basicSalary, benefits) {
+  // Tax calculation logic (example values)
+  const taxRate = 0.2; // 20% tax rate
+  const nhif = 200; // Example NHIF deduction
+  const nssf = 100; // Example NSSF deduction
+  const grossSalary = basicSalary + benefits;
+  const tax = grossSalary * taxRate;
+  const netSalary = grossSalary - tax - nhif - nssf;
+
+  console.log('Gross Salary:', grossSalary);
+  console.log('Tax:', tax);
+  console.log('NHIF:', nhif);
+  console.log('NSSF:', nssf);
+  console.log('Net Salary:', netSalary);
+}
+
+// Example testing
+let basicSalary = 5000; // Change this value to test
+let benefits = 1000; // Change this value to test
+calculateNetSalary(basicSalary, benefits);
+Testing
+Follow the same steps as for the previous challenges to test the code in the browser console.
